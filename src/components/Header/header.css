@@ -1,0 +1,21 @@
+.header {
+  width: 100%;
+}
+.header_color_main {
+  background-color: #465DFF;
+}
+.header__container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 30px;
+  height: 74px;
+  align-items: center;
+}
+
+@media (max-width: 425px) {
+  .header__container {
+    padding: 0 14px;
+  }
+}
