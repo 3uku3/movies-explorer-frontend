@@ -1,0 +1,202 @@
+.account__container {
+  display: flex;
+  align-items: center;
+}
+
+.account__register {
+  margin-right: 30px;
+  color: #FFF;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.account__login {
+  color: #000;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 8px 20px;
+  background-color: #2BE080;
+  border-radius: 3px;
+}
+
+.account__profile {
+  display: flex;
+  align-items: center;
+  color: #000;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 3px 3px 3px 11px;
+  box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.08);
+  border-radius: 40px;
+  text-decoration: none;
+}
+
+.account__image {
+  margin-left: 7px;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #F9F9F9;
+  border-radius: 50%;
+}
+
+.account__img {
+  width: 11px;
+  height: 11px;
+  object-fit: contain;
+  object-position: center;
+}
+
+.account__button {
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: none;
+  position: relative;
+  padding: 0;
+  cursor: pointer;
+  display: none;
+}
+
+.account__burger {
+  width: 100%;
+  height: 3px;
+  background-color: #000;
+}
+.account__burger::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #000;
+}
+.account__burger::before {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #000;
+}
+
+.account__menu-wrapper {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 99;
+  display: none;
+}
+
+.account__menu-wrapper_active {
+  display: block;
+}
+.account__menu-container {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 520px;
+  height: 100vh;
+  background-color: #FFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 100;
+}
+
+.account__close {
+  position: absolute;
+  right: 22px;
+  top: 22px;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  outline: 0;
+  cursor: pointer;
+}
+
+.account__close-img {
+  width: 100%;
+  height: 100%;
+  transition: all 0.4s ease-in-out;
+}
+.account__close-img:hover {
+  transform: rotate(180deg);
+}
+
+.account__links {
+  display: flex;
+  flex-direction: column;
+  margin-top: 159px;
+  align-items: center;
+  flex: 1 1 auto;
+}
+
+.account__link {
+  margin-bottom: 28px;
+  color: #000;
+  font-size: 18px;
+  line-height: 1.2;
+  text-decoration: none;
+  display: block;
+  width: fit-content;
+}
+
+.account__link_active {
+  position: relative;
+}
+.account__link_active::after {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  content: '';
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #000;
+}
+
+.account__menu-container .account__container {
+  margin-bottom: 90px;
+}
+
+@media (max-width: 768px) {
+  .account__button {
+    display: block;
+  }
+  .account__profile {
+    display: none;
+  }
+  .account__menu-container .account__profile {
+    display: flex;
+  }
+}
+
+@media (max-width: 560px) {
+  .account__menu-container {
+    width: 320px;
+  }
+}
+
+@media (max-width: 425px) {
+  .account__register {
+    font-size: 10px;
+  }
+  .account__login {
+    font-size: 10px;
+  }
+}

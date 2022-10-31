@@ -1,0 +1,34 @@
+.promo {
+  background-color: #465DFF;
+}
+
+.promo__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.promo__title {
+  color: #FFF;
+  font-size: 40px;
+  font-weight: 1.2;
+  font-weight: 400;
+  max-width: 626px;
+  margin: 59px 0 102px;
+}
+
+.promo__image {
+  align-self: flex-end;
+  margin-bottom: 51px;
+}
+
+@media (max-width:425px) {
+  .promo__container  {
+    padding: 0 14px;
+  }
+  .promo__title {
+    font-size: 31px;
+  }
+}
