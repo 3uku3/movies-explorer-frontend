@@ -16,10 +16,10 @@ const MoviesCard = ({title, time, image, isSave}) => {
     <article className='movies-card'>
       <div className='movies-card__title-container'>
         <h3 className='movies-card__title'>{title}</h3>
-        <p className='movies-card__time'>{time}</p>
+        <p className='movies-card__time'>{time + ' мин.'}</p>
       </div>
       <div className='movies-card__image'>
-        <img className='movies-card__img' src={image} alt={title} />
+        <img className='movies-card__img' src={ 'https://api.nomoreparties.co/' + image} alt={title} />
       </div>
       {button}
     </article>
