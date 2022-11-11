@@ -12,3 +12,9 @@
   font-weight: 400;
   text-decoration: none;
 }
+
+@media (max-width:768px) {
+  .header__container>.navigation {
+    display: none;
+  }
+}

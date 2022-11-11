@@ -6,7 +6,7 @@ import closeIcon from '../../images/close.svg';
 import { useEffect, useState } from "react";
 
 
-const Account = () => {
+const Account = ({loggedIn}) => {
   const { pathname } = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const onClickMenu = () => {
@@ -15,7 +15,7 @@ const Account = () => {
 
   let account;
   let activeClassName = "account__link_active";
-  if (pathname !== '/') {
+  if (loggedIn) {
     account = <Link className="account__profile" to="/profile">Аккаунт <div className="account__image"><img className="account__img" src={accountIcon} alt="Аккаунт" /></div></Link>
   } else {
     account = <><Link className="account__register" to="/signup">Регистрация</Link> <Link className="account__login" to="/signin">Войти</Link></>

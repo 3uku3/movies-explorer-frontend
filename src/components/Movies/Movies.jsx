@@ -1,12 +1,13 @@
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import { moviesApi } from '../../utils/MoviesApi';
 import Preloader from '../Preloader/Preloader';
 import './movies.css';
+import { SavedMoviesContext } from "../../context/SavedMoviesContext"
 
-
-const Movies = () => {
+const Movies = ({ handleSaveMovie, handleRemoveMovie }) => {
+  const savedMovies = useContext(SavedMoviesContext);
   const [movies, setMovies] = useState([]);
   const [isShortFilm, setIsShortFilm] = useState(false);
   const [moviesFiltered, setMoviesFiltered] = useState([]);
@@ -23,9 +24,34 @@ const Movies = () => {
     if (input.length > 0) {
       setIsEmptyInput(false);
       setIsLoaded(true);
+      setMovies([]);
+      setMoviesFiltered([]);
       moviesApi.getMovies().then((result) => {
         setIsLoaded(false);
-        setMovies(result);
+
+        setMovies(result.map((item, index) => {
+          let isSave = false;
+          savedMovies.forEach((savedMovie) => {
+            if (savedMovie.movieId === item.id) {
+              isSave = true;
+            }
+          })
+          return {
+            key: index,
+            country: item.country,
+            director: item.director,
+            duration: item.duration,
+            year: item.year,
+            description: item.description,
+            image: 'https://api.nomoreparties.co/' + item.image.url,
+            trailerLink: item.trailerLink,
+            thumbnail: 'https://api.nomoreparties.co/' + item.image.url,
+            movieId: item.id,
+            nameEN: item.nameEN,
+            nameRU: item.nameRU,
+            isSave: isSave
+          }
+        }));
         setAlertText('Ничего не найдено');
       }).catch(() => {
         setIsLoaded(false);
@@ -56,6 +82,7 @@ const Movies = () => {
         return isFinded
       }))
     }
+    console.log(moviesFiltered);
   }, [movies, isShortFilm]);
   return (
     <main className="movies">
@@ -67,9 +94,11 @@ const Movies = () => {
       ></SearchForm>
       {isLoaded && <Preloader></Preloader>}
 
-      {moviesFiltered.length > 0 && !isEmptyInput 
+      {moviesFiltered.length > 0 && !isEmptyInput
         ?
         <MoviesCardList
+          handleSaveMovie={handleSaveMovie}
+          handleRemoveMovie={handleRemoveMovie}
           movies={moviesFiltered}
         ></MoviesCardList>
         :

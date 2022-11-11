@@ -84,6 +84,23 @@
   color: #2BE080;
 }
 
+.register__input_error {
+  border-bottom: 1px solid red;
+  margin-bottom: 5px;
+}
+
+.register__error {
+  color: red;
+  font-size: 12px;
+  padding: 0;
+  margin: 0 0 10px;
+}
+
+.register__submit_disabled {
+  background-color: #A0A0A0;
+  pointer-events: none;
+}
+
 @media (max-width: 768px) {
   .register__container {
     justify-content: center;

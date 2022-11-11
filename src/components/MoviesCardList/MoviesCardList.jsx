@@ -3,7 +3,7 @@ import './moviesCardList.css';
 import ButtonMore from '../ButtonMore/ButtonMore';
 import { useEffect, useLayoutEffect, useState } from 'react';
 
-const MoviesCardList = ({ movies }) => {
+const MoviesCardList = ({ movies, handleSaveMovie, handleRemoveMovie }) => {
   const [visibleMovies, setVisibleMovies] = useState(12);
   const [renderedMovires, setRenderedMovies] = useState();
   const [size, setSize] = useState([0, 0]);
@@ -69,10 +69,10 @@ const MoviesCardList = ({ movies }) => {
     setRenderedMovies(movies.map((movie, index) => {
       return <MoviesCard
         key={index}
-        title={movie.nameRU}
-        time={movie.duration}
-        image={movie.image.url}
+        movie={movie}
         isSave={movie.isSave}
+        handleSaveMovie={handleSaveMovie}
+        handleRemoveMovie={handleRemoveMovie}
       ></MoviesCard>
     }).filter((movie, index) => {
       if (visibleMovies < index + 1) {
