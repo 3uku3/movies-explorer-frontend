@@ -6,9 +6,9 @@ import Preloader from '../Preloader/Preloader';
 import './movies.css';
 import { SavedMoviesContext } from "../../context/SavedMoviesContext"
 
-const Movies = ({ handleSaveMovie, handleRemoveMovie }) => {
+const Movies = ({ movies, setMovies, savedMoviesLoaded, setSavedMoviesLoaded, handleSaveMovie, handleRemoveMovie }) => {
+  const [firstLoaded, setFirstLoaded] = useState(true);
   const savedMovies = useContext(SavedMoviesContext);
-  const [movies, setMovies] = useState([]);
   const [isShortFilm, setIsShortFilm] = useState(false);
   const [moviesFiltered, setMoviesFiltered] = useState([]);
   const [input, setInput] = useState('');
@@ -20,20 +20,28 @@ const Movies = ({ handleSaveMovie, handleRemoveMovie }) => {
     setInput(e.target.value);
   }
 
-  const handleSearch = (search, isShort) => {
-    if (search.length > 0) {
+  const handleSearch = () => {
+    if (input.length > 0) {
+      localStorage.setItem('input', input);
+      localStorage.setItem('isShortFilm', isShortFilm);
+      if (movies.length > 0) {
+        setMoviesFiltered(movies.filter((movie) => {
+          const nameEN = movie.nameEN.indexOf(input);
+          const nameRU = movie.nameRU.indexOf(input);
+          const isFinded = nameEN !== -1 || nameRU !== -1;
+          if (isShortFilm) {
+            return isFinded && movie.duration <= 40;
+          }
+          return isFinded
+        }))
+        return;
+      }
+
       setIsEmptyInput(false);
       setIsLoaded(true);
-      localStorage.setItem('search', search);
-      localStorage.setItem('isShort', isShort);
-      setInput(search);
-      setIsShortFilm(isShort);
-      setMovies([]);
       setMoviesFiltered([]);
-      console.log('inHandle');
       moviesApi.getMovies().then((result) => {
         setIsLoaded(false);
-        console.log('inGetMovies');
         setMovies(result.map((item, index) => {
           let isSave = false;
           savedMovies.forEach((savedMovie) => {
@@ -41,7 +49,6 @@ const Movies = ({ handleSaveMovie, handleRemoveMovie }) => {
               isSave = true;
             }
           })
-          console.log('inSetMovies');
           return {
             key: index,
             country: item.country,
@@ -57,7 +64,9 @@ const Movies = ({ handleSaveMovie, handleRemoveMovie }) => {
             nameRU: item.nameRU,
             isSave: isSave
           }
+
         }));
+
         setAlertText('Ничего не найдено');
       }).catch(() => {
         setIsLoaded(false);
@@ -71,6 +80,7 @@ const Movies = ({ handleSaveMovie, handleRemoveMovie }) => {
 
   const handleShortCheckbox = (e) => {
     setIsShortFilm(e.target.checked);
+    localStorage.setItem('isShort', e.target.checked);
   }
 
   useEffect(() => {
@@ -78,10 +88,7 @@ const Movies = ({ handleSaveMovie, handleRemoveMovie }) => {
       setMoviesFiltered(movies.filter((movie) => {
         const nameEN = movie.nameEN.indexOf(input);
         const nameRU = movie.nameRU.indexOf(input);
-        const director = movie.director.indexOf(input);
-        const country = movie.country.indexOf(input);
-        const year = movie.year.indexOf(input);
-        const isFinded = nameEN !== -1 || nameRU !== -1 || director !== -1 || country !== -1 || year !== -1;
+        const isFinded = nameEN !== -1 || nameRU !== -1;
         if (isShortFilm) {
           return isFinded && movie.duration <= 40;
         }
@@ -91,14 +98,27 @@ const Movies = ({ handleSaveMovie, handleRemoveMovie }) => {
   }, [movies, isShortFilm]);
 
   useEffect(() => {
-    setInput(window.localStorage.getItem('search'));
-    if (window.localStorage.getItem('isShort') === "true") {
+    setInput(window.localStorage.getItem('input'));
+    let isShort = false;
+    if (window.localStorage.getItem('isShortFilm') === "true") {
       setIsShortFilm(true);
+      isShort = true;
     } else {
       setIsShortFilm(false);
+      isShort = false
     }
-
-  },[])
+    if (movies.length > 0) {
+      setMoviesFiltered(movies.filter((movie) => {
+        const nameEN = movie.nameEN.indexOf(window.localStorage.getItem('input'));
+        const nameRU = movie.nameRU.indexOf(window.localStorage.getItem('input'));
+        const isFinded = nameEN !== -1 || nameRU !== -1;
+        if (isShort) {
+          return isFinded && movie.duration <= 40;
+        }
+        return isFinded
+      }))
+    }
+  }, [])
   return (
     <main className="movies">
       <SearchForm
@@ -107,6 +127,8 @@ const Movies = ({ handleSaveMovie, handleRemoveMovie }) => {
         input={input}
         handleShortCheckbox={handleShortCheckbox}
         isShort={isShortFilm}
+        savedMoviesLoaded={savedMoviesLoaded}
+        setSavedMoviesLoaded={setSavedMoviesLoaded}
       ></SearchForm>
       {isLoaded && <Preloader></Preloader>}
 

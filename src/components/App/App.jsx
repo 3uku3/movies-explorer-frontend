@@ -18,8 +18,9 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 function App() {
   const navigate = useNavigate();
-
-  const [savedMovies, setSavedMovies] = useState({});
+  const [savedMoviesLoaded, setSavedMoviesLoaded] = useState(false);
+  const [savedMovies, setSavedMovies] = useState([]);
+  const [movies, setMovies] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState({
     name: "",
@@ -28,11 +29,10 @@ function App() {
   });
 
   const validation = () => {
-    api
+    return api
       .validation()
       .then((res) => {
         setLoggedIn(true);
-        navigate('/movies');
         setUser(res.data);
       })
       .catch();
@@ -42,21 +42,15 @@ function App() {
     return api
       .login({ password, email })
       .then((res) => {
-        validation();
-        navigate("/movies");
-      })
-      .catch((e) => {
-        switch (e) {
-
-        }
+        return validation();
       });
   };
   const handleLogout = () => {
     api.logout().then((res) => {
       setLoggedIn(false);
-      navigate("/signin");
-      // window.localStorage.removeItem('search');
-      // window.localStorage.removeItem('isShort');
+      navigate("/");
+      window.localStorage.removeItem('search');
+      window.localStorage.removeItem('isShort');
     })
 
   }
@@ -64,13 +58,16 @@ function App() {
     return api
       .register({ name, password, email })
       .then((res) => {
-        navigate("signin");
+        navigate("/movies");
       })
       .catch((e) => {
       });
   };
 
   const handleEdit = ({name, email}) => {
+    if (name === user.name && email === user.email) {
+      return;
+    }
     return api
     .setUserInfo({name, email})
     .then((res) => {
@@ -98,6 +95,7 @@ function App() {
     if (loggedIn === true) {
       api.getSavedMovies().then((res) => {
         setSavedMovies(res.data);
+        setSavedMoviesLoaded(true);
       })
     }
   },[loggedIn])
@@ -139,7 +137,7 @@ function App() {
           <Route
             exact
             path='/movies'
-            element={<ProtectedRoute loggedIn={loggedIn}><Movies handleRemoveMovie={handleRemoveMovie} handleSaveMovie={handleSaveMovie}></Movies></ProtectedRoute>}
+            element={<ProtectedRoute loggedIn={loggedIn}><Movies movies={movies} setMovies={setMovies} savedMoviesLoaded={savedMoviesLoaded} setSavedMoviesLoaded={setSavedMoviesLoaded} handleRemoveMovie={handleRemoveMovie} handleSaveMovie={handleSaveMovie}></Movies></ProtectedRoute>}
           ></Route>
           <Route
             exact

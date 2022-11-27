@@ -2,18 +2,12 @@ import searchIcon from '../../images/icon-search.svg';
 import searchArrow from '../../images/arrow-search.svg';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import './searchForm.css';
-import { useEffect } from 'react';
 
-const SearchForm = ({handleSearch, onChangeInput, input, handleShortCheckbox, isShort}) => {
+const SearchForm = ({ handleSearch, onChangeInput, input, handleShortCheckbox, isShort }) => {
   const onSubmit = (e) => {
     e.preventDefault();
-    handleSearch(input, isShort);
+    handleSearch();
   }
-  useEffect (() => {
-    if (window.localStorage.getItem('search')) {
-      handleSearch(window.localStorage.getItem('search'), window.localStorage.getItem('isShort'));
-    }
-  },[])
   return (
     <section className="search-form">
       <div className="search-form__container">

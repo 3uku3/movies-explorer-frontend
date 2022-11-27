@@ -12,6 +12,14 @@ export default function useFormWithValidation() {
     setValues({...values, [name]: value});
     setErrors({...errors, [name]: target.validationMessage });
     setIsValid(target.closest("form").checkValidity());
+    if (name === "email") {
+      const reg = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/;
+      if (!reg.test(values[name])) {
+        setErrors({...errors, [name]: "Неккоректный Email."});
+        setIsValid(false);
+      }
+    }
+    
   };
 
   const resetForm = useCallback(

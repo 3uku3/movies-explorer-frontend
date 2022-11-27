@@ -23,10 +23,8 @@ const SavedMovies = ({ handleRemoveMovie }) => {
       setMovies(savedMovies.filter((movie) => {
         const nameEN = movie.nameEN.indexOf(input);
         const nameRU = movie.nameRU.indexOf(input);
-        const director = movie.director.indexOf(input);
-        const country = movie.country.indexOf(input);
-        const year = movie.year.indexOf(input);
-        const isFinded = nameEN !== -1 || nameRU !== -1 || director !== -1 || country !== -1 || year !== -1;
+
+        const isFinded = nameEN !== -1 || nameRU !== -1;
         if (isShortFilm) {
           return isFinded && movie.duration <= 40;
         }
