@@ -20,15 +20,20 @@ const Movies = ({ handleSaveMovie, handleRemoveMovie }) => {
     setInput(e.target.value);
   }
 
-  const handleSearch = () => {
-    if (input.length > 0) {
+  const handleSearch = (search, isShort) => {
+    if (search.length > 0) {
       setIsEmptyInput(false);
       setIsLoaded(true);
+      localStorage.setItem('search', search);
+      localStorage.setItem('isShort', isShort);
+      setInput(search);
+      setIsShortFilm(isShort);
       setMovies([]);
       setMoviesFiltered([]);
+      console.log('inHandle');
       moviesApi.getMovies().then((result) => {
         setIsLoaded(false);
-
+        console.log('inGetMovies');
         setMovies(result.map((item, index) => {
           let isSave = false;
           savedMovies.forEach((savedMovie) => {
@@ -36,6 +41,7 @@ const Movies = ({ handleSaveMovie, handleRemoveMovie }) => {
               isSave = true;
             }
           })
+          console.log('inSetMovies');
           return {
             key: index,
             country: item.country,
@@ -82,13 +88,23 @@ const Movies = ({ handleSaveMovie, handleRemoveMovie }) => {
         return isFinded
       }))
     }
-    console.log(moviesFiltered);
   }, [movies, isShortFilm]);
+
+  useEffect(() => {
+    setInput(window.localStorage.getItem('search'));
+    if (window.localStorage.getItem('isShort') === "true") {
+      setIsShortFilm(true);
+    } else {
+      setIsShortFilm(false);
+    }
+
+  },[])
   return (
     <main className="movies">
       <SearchForm
         handleSearch={handleSearch}
         onChangeInput={onChangeInput}
+        input={input}
         handleShortCheckbox={handleShortCheckbox}
         isShort={isShortFilm}
       ></SearchForm>

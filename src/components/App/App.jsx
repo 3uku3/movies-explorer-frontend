@@ -1,6 +1,6 @@
 import Header from '../Header/Header';
 import './App.css';
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
 import Movies from '../Movies/Movies';
@@ -55,6 +55,8 @@ function App() {
     api.logout().then((res) => {
       setLoggedIn(false);
       navigate("/signin");
+      // window.localStorage.removeItem('search');
+      // window.localStorage.removeItem('isShort');
     })
 
   }
@@ -101,7 +103,7 @@ function App() {
   },[loggedIn])
   useEffect(() => {
     validation();
-  },[])
+  }, [])
   return (
     <CurrentUserContext.Provider value={user}>
       <SavedMoviesContext.Provider value={savedMovies}>
