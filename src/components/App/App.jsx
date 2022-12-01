@@ -58,7 +58,9 @@ function App() {
     return api
       .register({ name, password, email })
       .then((res) => {
+        handleLogin({password, email}).then(() => {
         navigate("/movies");
+        });
       })
       .catch((e) => {
       });
