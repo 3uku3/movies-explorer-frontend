@@ -24,7 +24,7 @@ const Login = ({ onLogin }) => {
         <h1 className='login__title'>Рады видеть!</h1>
         <div className='login__inputs'>
           <p className='login__text'>E-mail</p>
-          <input name='email' className={errors.email ? 'login__input login__input_error' : 'login__input'} value={values.email} onChange={handleChange} type="email" required />
+          <input name='email' className={errors.email ? 'login__input login__input_error' : 'login__input'} value={values.email} onPaste={handleChange} onChange={handleChange} type="email" required />
           {errors.email && <p className='login__error'>{errors.email}</p>}
           <p className='login__text'>Пароль</p>
           <input name='password' className={errors.email ? 'login__input login__input_error' : 'login__input'} value={values.password} onChange={handleChange} type="password" required />

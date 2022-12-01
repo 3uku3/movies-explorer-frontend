@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 
 export default function useFormWithValidation() {
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState({email: '', password:'', name: ''});
   const [errors, setErrors] = useState({});
   const [isValid, setIsValid] = useState(false);
 
@@ -14,7 +14,7 @@ export default function useFormWithValidation() {
     setIsValid(target.closest("form").checkValidity());
     if (name === "email") {
       const reg = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/;
-      if (!reg.test(values[name])) {
+      if (!reg.test(value)) {
         setErrors({...errors, [name]: "Неккоректный Email."});
         setIsValid(false);
       }
