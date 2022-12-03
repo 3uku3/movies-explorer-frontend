@@ -5,10 +5,12 @@ import useFormWithValidation from '../../hooks/useFormWithValidation';
 
 const Profile = ({onEdit, handleLogout}) => {
   const user = useContext(CurrentUserContext);
+  const [message, setMessage] = useState('');
   const { values, handleChange, errors, isValid } = useFormWithValidation();
   const [isEdit, setIsEdit] = useState(false);
   const onClickEdit = (e) => {
     setIsEdit(true);
+    setMessage('');
   }
   const onClickBack = () => {
     setIsEdit(false);
@@ -19,7 +21,9 @@ const Profile = ({onEdit, handleLogout}) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    onEdit(values);
+    onEdit(values).then(() => {
+      setMessage('Данные сохранены');
+    });
     setIsEdit(false);
   }
   return (
@@ -48,6 +52,7 @@ const Profile = ({onEdit, handleLogout}) => {
         :
         <div className='profile__container'>
           <h2 className='profile__title'>Привет, {user.name}!</h2>
+          <p className='profile__message'>{message}</p>
           <ul className='profile__list'>
             <li className='profile__item'>
               <p className='profile__subtitle'>Имя</p>
@@ -57,6 +62,7 @@ const Profile = ({onEdit, handleLogout}) => {
               <p className='profile__subtitle'>E-mail</p>
               <p className='profile__name'>{user.email}</p>
             </li>
+            
           </ul>
           <div className='profile__buttons'>
             <button className='profile__edit' onClick={onClickEdit}>Редактировать</button>

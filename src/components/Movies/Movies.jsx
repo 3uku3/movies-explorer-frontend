@@ -7,7 +7,6 @@ import './movies.css';
 import { SavedMoviesContext } from "../../context/SavedMoviesContext"
 
 const Movies = ({ movies, setMovies, savedMoviesLoaded, setSavedMoviesLoaded, handleSaveMovie, handleRemoveMovie }) => {
-  const [firstLoaded, setFirstLoaded] = useState(true);
   const savedMovies = useContext(SavedMoviesContext);
   const [isShortFilm, setIsShortFilm] = useState(false);
   const [moviesFiltered, setMoviesFiltered] = useState([]);
@@ -26,14 +25,17 @@ const Movies = ({ movies, setMovies, savedMoviesLoaded, setSavedMoviesLoaded, ha
       localStorage.setItem('isShortFilm', isShortFilm);
       if (movies.length > 0) {
         setMoviesFiltered(movies.filter((movie) => {
-          const nameEN = movie.nameEN.indexOf(input);
-          const nameRU = movie.nameRU.indexOf(input);
+          const nameEN = movie.nameEN.toLowerCase().indexOf(input.toLowerCase());
+          const nameRU = movie.nameRU.toLowerCase().indexOf(input.toLowerCase());
           const isFinded = nameEN !== -1 || nameRU !== -1;
           if (isShortFilm) {
             return isFinded && movie.duration <= 40;
           }
           return isFinded
         }))
+        if (moviesFiltered.length < 1) {
+          setAlertText('Ничего не найдено');
+        }
         return;
       }
 
@@ -86,8 +88,8 @@ const Movies = ({ movies, setMovies, savedMoviesLoaded, setSavedMoviesLoaded, ha
   useEffect(() => {
     if (movies.length > 0) {
       setMoviesFiltered(movies.filter((movie) => {
-        const nameEN = movie.nameEN.indexOf(input);
-        const nameRU = movie.nameRU.indexOf(input);
+        const nameEN = movie.nameEN.toLowerCase().indexOf(input.toLowerCase());
+        const nameRU = movie.nameRU.toLowerCase().indexOf(input.toLowerCase());
         const isFinded = nameEN !== -1 || nameRU !== -1;
         if (isShortFilm) {
           return isFinded && movie.duration <= 40;

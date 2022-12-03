@@ -47,10 +47,10 @@ function App() {
   };
   const handleLogout = () => {
     api.logout().then((res) => {
+      window.localStorage.removeItem('input');
+      window.localStorage.removeItem('isShortFilm');
       setLoggedIn(false);
       navigate("/");
-      window.localStorage.removeItem('search');
-      window.localStorage.removeItem('isShort');
     })
 
   }

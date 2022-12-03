@@ -35,7 +35,9 @@ const MoviesCard = ({movie, handleSaveMovie, handleRemoveMovie}) => {
         <p className='movies-card__time'>{movie.duration + ' мин.'}</p>
       </div>
       <div className='movies-card__image'>
+        <a href={movie.trailerLink} target="_blank" rel="noreferrer" title='Трейлер'>
         <img className='movies-card__img' src={movie.image} alt={movie.nameRU} />
+        </a>
       </div>
       {button}
     </article>

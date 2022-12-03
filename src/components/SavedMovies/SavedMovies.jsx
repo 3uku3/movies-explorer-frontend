@@ -21,8 +21,8 @@ const SavedMovies = ({ handleRemoveMovie }) => {
   const handleSearch = () => {
     if (input.length > 0 || isShortFilm) {
       setMovies(savedMovies.filter((movie) => {
-        const nameEN = movie.nameEN.indexOf(input);
-        const nameRU = movie.nameRU.indexOf(input);
+        const nameEN = movie.nameEN.toLowerCase().indexOf(input.toLowerCase());
+        const nameRU = movie.nameRU.toLowerCase().indexOf(input.toLowerCase());
 
         const isFinded = nameEN !== -1 || nameRU !== -1;
         if (isShortFilm) {

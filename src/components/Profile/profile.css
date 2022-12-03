@@ -110,6 +110,10 @@
   margin-bottom: 5px;
 }
 
+.profile__message {
+  text-align: center;
+}
+
 .profile__error {
   color: red;
   font-size: 12px;
