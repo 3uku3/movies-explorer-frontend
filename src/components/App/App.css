@@ -2,3 +2,17 @@
   font-family: 'Inter';
   box-sizing: border-box;
 }
+
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1 1 auto;
+}
+
+footer {
+  flex: 0 0 auto;
+}

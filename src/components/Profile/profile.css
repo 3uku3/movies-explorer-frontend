@@ -53,7 +53,7 @@
   display: flex;
   flex-direction: column;
   flex: 0 1 auto;
-  margin: 0 auto;
+  margin: 60px auto 0;
 }
 
 .profile__edit {
@@ -103,6 +103,28 @@
   border-bottom: 1px solid #E8E8E8;
   outline: none;
   margin-bottom: 24px;
+}
+
+.profile__input_error {
+  border-bottom: 1px solid red;
+  margin-bottom: 5px;
+}
+
+.profile__message {
+  text-align: center;
+}
+
+.profile__error {
+  color: red;
+  font-size: 12px;
+  padding: 0;
+  margin: 0 0 10px;
+}
+
+.profile__edit_disabled {
+  background: none;
+  border: none;
+  pointer-events: none;
 }
 
 @media (max-width:425px) {
